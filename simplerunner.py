@@ -29,22 +29,41 @@ def enterURL(u):
    # we might be in the middle of the page and URL bar not visible
    # scroll the page just enough to make sure URL bar is visible
    device.drag ((400, 600), (400, 590), steps=5, duration=0.2)
-   MonkeyRunner.sleep(0.5)
+   MonkeyRunner.sleep(1.0)
 
     # move focus to the URL box
-   device.touch(250, 157, MonkeyDevice.DOWN_AND_UP) 
+   device.touch(420, 150, MonkeyDevice.DOWN_AND_UP) 
+   MonkeyRunner.sleep(1.5)
 
-   # all text in the URL bar will be selected
-   # hit DEL to clear URL bar
-   device.press('KEYCODE_DEL', MonkeyDevice.DOWN_AND_UP)
+   # hit the clear button on the right hand side
+   device.touch(1020, 150, MonkeyDevice.DOWN_AND_UP) 
+   MonkeyRunner.sleep(1.5)
 
    #enter URL and hit 'enter' 
-   device.type(u + '\n')
+   device.type(u)
+   MonkeyRunner.sleep(1.5)
+   
+   # hit the submit button on the keyboard
+   device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+   MonkeyRunner.sleep(1.5)
    return
 
 
-
+def scrollDownPages(n):
+    device.touch(400, 1700, MonkeyDevice.MOVE) 
+    while n >= 0:
+      n -= 1
+      device.drag ((400, 1600), (400, 350), steps=100, duration=0.5)
+    return
    
+def scrollUpPages(n):
+    device.touch(400, 350, MonkeyDevice.MOVE) 
+    while n >= 0:
+      n -= 1
+      device.drag ((400, 350), (400, 1600), steps=100, duration=0.5)
+    return
+
+
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 
@@ -65,10 +84,10 @@ launchHWBrowser()
 # Writes the screenshot to a file
 #result.writeToFile('./shot1.png','png')
 
-enterURL('https://www.grassel.org/')
-MonkeyRunner.sleep(3.0)
+enterURL('https://www.w3.org/')
+MonkeyRunner.sleep(5.0)
 
-#device.drag ((400, 900), (200, 100), steps=400, duration=3.0)
-#device.drag ((200, 100), (200, 900), steps=400, duration=2.0)
+scrollDownPages(5)
+scrollUpPages(5)
 
 
